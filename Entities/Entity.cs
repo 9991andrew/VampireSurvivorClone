@@ -95,7 +95,7 @@ namespace Vampire_Survivor.Entities
             } 
         }
     }
-   
+   //This is the collision helper static sub class for detecting collision
     public static class CollisionHelper
     {
         public static bool CheckCollision(Rectangle a, Rectangle b)
