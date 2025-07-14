@@ -58,7 +58,7 @@ namespace Vampire_Survivor.Screens
             playerConfig.framesPerSecWalk =7;
 
             enemyConfig = new Config();
-            enemyConfig.pos = new Vector2(200, 200);
+            enemyConfig.pos = new Vector2(50, 50);
             enemyConfig.origin = Vector2.Zero;
             enemyConfig.health = 10;
             enemyConfig.speed = 100;
@@ -75,8 +75,7 @@ namespace Vampire_Survivor.Screens
         public override void LoadContent()
         {
             player = new Player();
-            player.Initialize(
-                Game.Content,
+            player.Initialize(Game.Content,
                 playerConfig.pos,
                 playerConfig.speed,
                 playerConfig.origin,

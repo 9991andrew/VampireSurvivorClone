@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,21 +29,6 @@ namespace Vampire_Survivor.Entities.Enemies
             aistate = AIState.Chase;
         }
         //Initialize the enemy.
-        /*  public override void Initialize(ContentManager content)
-          {
-
-              // Load whichever textures your subclass wants
-              IdleTexture = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
-              MovingTexture = new AnimatedTexture(Vector2.Zero, 0f, 1f, 0.5f);
-
-              // Subclasses define these:
-              IdleTexture.Load(content, AssetIdleName, AssetIdleFrames, AssetIdleFps);
-              MovingTexture.Load(content, AssetMoveName, AssetMoveFrames, AssetMoveFps);
-
-              // You can also override StartingPosition in a subclass
-              Position = StartingPosition;
-          }
-        */
         public override void Initialize(ContentManager content, Vector2 pos, int speed, Vector2 origin, int healthValue, float rotation,
                                           float scale, float depth, string idleAnim, string walkAnim, int frameCount,
                                           int framesPerSec, int frameCount2, int framesPerSec2, Direction dir, AnimationState animState)
@@ -59,25 +45,29 @@ namespace Vampire_Survivor.Entities.Enemies
 
             // Vector pointing from me → player
             Vector2 toPlayer = Target.Position - Position;
+            Vector2 prevPos = Position;
+            toPlayer.Normalize();
 
             if (toPlayer.LengthSquared() > 0.001f)
             {
-                // We’re moving
-                toPlayer.Normalize();
-                Position += toPlayer * Speed * dt;
-                state = AnimationState.Moving;
-
-                // Decide facing direction
+                
+                Position += toPlayer * Speed * dt;                
                 if (Math.Abs(toPlayer.X) > Math.Abs(toPlayer.Y))
                     CurrentDirection = toPlayer.X > 0 ? Direction.Right : Direction.Left;
                 else
                     CurrentDirection = toPlayer.Y > 0 ? Direction.Down : Direction.Up;
+                state = AnimationState.Moving;
+
             }
-            else
+
+
+            if (CollisionHelper.CheckCollision(Bounds,Target.Bounds))
             {
-                // We’ve reached (or are very near) the player
+                Position = prevPos;
+               // TakeDamage();
                 state = AnimationState.Idle;
             }
+
 
             // Advance whichever animation is active
             var anim = (state == AnimationState.Moving) ? MovingTexture : IdleTexture;
@@ -92,6 +82,7 @@ namespace Vampire_Survivor.Entities.Enemies
         //Method for having the enemy take damage.
         public void TakeDamage()
         {
+            Debug.WriteLine("Taking damage");
             Health -= Damage;
             if (Health <= 0)
                 OnDeath();

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Vampire Survivor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb173cbd1aef838347d4a3955d98227ee2a8f6d2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Vampire Survivor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Vampire Survivor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
