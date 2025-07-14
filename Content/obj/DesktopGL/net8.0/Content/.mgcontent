@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/andre/source/repos/Vampire Survivor/Vampire Survivor/Content/File.spritefont</File>
+    <File>C:/Users/andre/source/repos/Vampire Survivor/Vampire Survivor/Content/Vampires1_Idle_full.png</File>
+    <File>C:/Users/andre/source/repos/Vampire Survivor/Vampire Survivor/Content/Vampires1_Walk_full.png</File>
+    <File>C:/Users/andre/source/repos/Vampire Survivor/Vampire Survivor/Content/Vampires2_Idle_full.png</File>
+    <File>C:/Users/andre/source/repos/Vampire Survivor/Vampire Survivor/Content/Vampires2_Walk_full.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File>DefaultFont.spritefont</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>
