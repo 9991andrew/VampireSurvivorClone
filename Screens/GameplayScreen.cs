@@ -93,7 +93,7 @@ namespace Vampire_Survivor.Screens
                 Entity.AnimationState.Idle         
             );
             //TODO: make 15 not 15 and some other value.
-            enemy = new SimpleEnemy(player, enemyConfig.health, 15);
+            enemy = new SimpleEnemy(player, enemyConfig.health, 15, "Vampires2_Attack_full", 12, 12);
             enemy.Initialize(Game.Content,
                             enemyConfig.pos,
                             enemyConfig.speed,

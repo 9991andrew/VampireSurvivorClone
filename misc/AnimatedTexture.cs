@@ -31,7 +31,9 @@ public class AnimatedTexture
 
     // The origin point of the animated texture.
     public Vector2 Origin;
+    //Width of the frame of the texture.
     public int FrameWidth { get { return myTexture.Width / frameCount; } }
+    //Height of the frame of the texture.
     public int FrameHeight { get { return myTexture.Height / 4; } }
 
     public AnimatedTexture(Vector2 origin, float rotation, float scale, float depth)
@@ -75,6 +77,8 @@ public class AnimatedTexture
         Rectangle sourcerect = new Rectangle(FrameWidth * frame, row * FrameHeight, FrameWidth, FrameHeight);
         batch.Draw(myTexture, screenPos, sourcerect, Color.White, Rotation, Origin, Scale, SpriteEffects.None, Depth);
     }
+
+
 
     public bool IsPaused
     {

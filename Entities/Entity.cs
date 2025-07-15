@@ -46,20 +46,34 @@ namespace Vampire_Survivor.Entities
          */
         public AnimatedTexture MovingTexture { get; set; }
         /*
+         * The current texture of the entity
+        */
+        public AnimatedTexture CurrentTexture { get; set; }
+        /*
+         * The pixel for debugging.
+         */
+        private Texture2D debugPixel;
+        /*
          * Don't really need to add anything here but, the below abstract void 
          * methods just update, draw, and initialize the entities.
          */
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            switch (state)
+            /*  switch (state)
+              {
+                  case AnimationState.Idle:
+                      IdleTexture?.DrawFrame(spriteBatch, (int)CurrentDirection, Position);
+                      break;
+                  case AnimationState.Moving:
+                      MovingTexture?.DrawFrame(spriteBatch, (int)CurrentDirection, Position);
+                      break;
+              }
+            */
+            if(CurrentTexture != null)
             {
-                case AnimationState.Idle:
-                    IdleTexture?.DrawFrame(spriteBatch, (int)CurrentDirection, Position);
-                    break;
-                case AnimationState.Moving:
-                    MovingTexture?.DrawFrame(spriteBatch, (int)CurrentDirection, Position);
-                    break;
+                CurrentTexture.DrawFrame(spriteBatch, (int)CurrentDirection, Position);
             }
+
         }
         public virtual void Initialize(ContentManager content, Vector2 pos, int speed, Vector2 origin, int healthValue, float rotation, float scale, float depth, string idleAnim, string walkAnim, int frameCount, int framesPerSec, int frameCount2, int framesPerSec2, Direction dir, AnimationState animState)
         {
@@ -86,15 +100,38 @@ namespace Vampire_Survivor.Entities
             get 
             {
                 AnimatedTexture currentTexture = (state == AnimationState.Idle) ? IdleTexture : MovingTexture;
+               // float scale = 0.5f;
+                int w = (int)(currentTexture.FrameWidth * currentTexture.Scale);
+                int h = (int)(currentTexture.FrameHeight * currentTexture.Scale);
+                Vector2 topLeft = Position - (currentTexture.Origin * currentTexture.Scale); 
                 if (currentTexture == null)
                 {
                     return Rectangle.Empty;
                 }
-              
-                return new Rectangle((int) Position.X, (int) Position.Y, currentTexture.FrameWidth, currentTexture.FrameHeight); 
+                Rectangle b = new Rectangle((int)topLeft.X, (int)topLeft.Y, w, h);
+                int pX = 34;
+                int pY = 38;
+                b.Inflate(-pX, -pY);
+                return b;//(int)Position.X, (int)Position.Y, w, h);//currentTexture.FrameWidth, currentTexture.FrameHeight); 
             } 
         }
+        public void DrawDebugBounds(SpriteBatch batch)
+        {
+            // ensure our 1×1 pixel exists
+            if (debugPixel == null)
+            {
+                debugPixel = new Texture2D(batch.GraphicsDevice, 1, 1);
+                debugPixel.SetData(new[] { Color.White });
+            }
+            // use the current frame index
+            var box = Bounds;
+            batch.Draw(debugPixel, new Rectangle(box.Left, box.Top, box.Width, 1), Color.Red);
+            batch.Draw(debugPixel, new Rectangle(box.Left, box.Bottom, box.Width, 1), Color.Red);
+            batch.Draw(debugPixel, new Rectangle(box.Left, box.Top, 1, box.Height), Color.Red);
+            batch.Draw(debugPixel, new Rectangle(box.Right, box.Top, 1, box.Height), Color.Red);
+        }
     }
+
    //This is the collision helper static sub class for detecting collision
     public static class CollisionHelper
     {

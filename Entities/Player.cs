@@ -62,13 +62,14 @@ namespace Vampire_Survivor.Entities
             }
 
             Position += input * Speed * elapsedTime;
-
-            (state == AnimationState.Moving ? MovingTexture : IdleTexture)?.UpdateFrame(elapsedTime);
+            CurrentTexture = (state == AnimationState.Moving) ? MovingTexture : IdleTexture;
+            CurrentTexture.UpdateFrame(elapsedTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+            DrawDebugBounds(spriteBatch);
         }
 
     }

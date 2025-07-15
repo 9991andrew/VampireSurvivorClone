@@ -44,6 +44,30 @@
 /processorParam:TextureFormat=Color
 /build:Vampires1_Walk_full.png
 
+#begin Vampires2_Attack_body.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Vampires2_Attack_body.png
+
+#begin Vampires2_Attack_full.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Vampires2_Attack_full.png
+
 #begin Vampires2_Idle_full.png
 /importer:TextureImporter
 /processor:TextureProcessor
