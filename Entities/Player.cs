@@ -15,9 +15,17 @@ namespace Vampire_Survivor.Entities
 {
     public class Player : Entity
     {
+        /*
+         * The animation state of the player
+         */
+        public enum AnimationState { Idle, Moving };
+        /*
+         *The current animation state of the player
+        */
+        public AnimationState state;
         public override void Initialize(ContentManager content, Vector2 pos, int speed, Vector2 origin, int healthValue, float rotation,
                                 float scale, float depth, string idleAnim, string walkAnim, int frameCount,
-                                int framesPerSec, int frameCount2, int framesPerSec2, Direction dir, AnimationState animState)
+                                int framesPerSec, int frameCount2, int framesPerSec2, Direction dir)
 
         {
             base.Initialize
@@ -36,8 +44,7 @@ namespace Vampire_Survivor.Entities
                 framesPerSec,
                 frameCount2,
                 framesPerSec2,
-                dir, 
-                animState
+                dir   
                 );
         }
 
@@ -60,10 +67,27 @@ namespace Vampire_Survivor.Entities
             {
                 state = AnimationState.Idle;
             }
-
+            setPlayerTexture(state);
             Position += input * Speed * elapsedTime;
-            CurrentTexture = (state == AnimationState.Moving) ? MovingTexture : IdleTexture;
-            CurrentTexture.UpdateFrame(elapsedTime);
+            if(CurrentTexture != null)
+            {
+                CurrentTexture = (state == AnimationState.Moving) ? MovingTexture : IdleTexture;
+                CurrentTexture.Play();
+                CurrentTexture.UpdateFrame(elapsedTime);
+            }
+        }
+
+        private void setPlayerTexture(AnimationState animationState)
+        {
+            switch (animationState)
+            {
+                case AnimationState.Moving:
+                    CurrentTexture = MovingTexture;
+                    break;
+                case AnimationState.Idle:
+                    CurrentTexture = IdleTexture;
+                    break;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)

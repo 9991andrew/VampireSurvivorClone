@@ -21,10 +21,7 @@ namespace Vampire_Survivor.Entities
          * Health of the entity
          */
         public int Health { get; set; }
-        /*
-         * The animation state of the entity
-         */
-        public enum AnimationState { Idle, Moving };
+
         /*
          * The direction of the entity
          */
@@ -33,10 +30,7 @@ namespace Vampire_Survivor.Entities
         * The current direction of the player
         */
         public Direction CurrentDirection;
-        /*
-         *The current animation state of the player
-         */
-        public AnimationState state;
+
         /*
          * The idle texture of the entity
          */
@@ -75,10 +69,9 @@ namespace Vampire_Survivor.Entities
             }
 
         }
-        public virtual void Initialize(ContentManager content, Vector2 pos, int speed, Vector2 origin, int healthValue, float rotation, float scale, float depth, string idleAnim, string walkAnim, int frameCount, int framesPerSec, int frameCount2, int framesPerSec2, Direction dir, AnimationState animState)
+        public virtual void Initialize(ContentManager content, Vector2 pos, int speed, Vector2 origin, int healthValue, float rotation, float scale, float depth, string idleAnim, string walkAnim, int frameCount, int framesPerSec, int frameCount2, int framesPerSec2, Direction dir)
         {
             CurrentDirection = dir;
-            state = animState;
             Position = pos;
             Speed = speed;
             Health = healthValue;
@@ -96,18 +89,19 @@ namespace Vampire_Survivor.Entities
         public abstract void Update(GameTime gameTime);
         
         public virtual Rectangle Bounds 
-        { 
-            get 
-            {
-                AnimatedTexture currentTexture = (state == AnimationState.Idle) ? IdleTexture : MovingTexture;
-               // float scale = 0.5f;
-                int w = (int)(currentTexture.FrameWidth * currentTexture.Scale);
-                int h = (int)(currentTexture.FrameHeight * currentTexture.Scale);
-                Vector2 topLeft = Position - (currentTexture.Origin * currentTexture.Scale); 
-                if (currentTexture == null)
+        {
+            get { 
+            
+
+                AnimatedTexture currTexture = CurrentTexture;
+                if (currTexture == null)
                 {
                     return Rectangle.Empty;
-                }
+                }    
+                int w = (int)(currTexture.FrameWidth * currTexture.Scale);
+                int h = (int)(currTexture.FrameHeight * currTexture.Scale);
+                Vector2 topLeft = Position - (currTexture.Origin * currTexture.Scale); 
+
                 Rectangle b = new Rectangle((int)topLeft.X, (int)topLeft.Y, w, h);
                 int pX = 34;
                 int pY = 38;

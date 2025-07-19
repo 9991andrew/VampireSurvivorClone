@@ -51,7 +51,6 @@ public class AnimatedTexture
         timePerFrame = (float) 1 / framesPerSec;
         frame = 0;
         totalElapsed = 0;
-        isPaused = false;
     }
 
     public void UpdateFrame(float elapsed)

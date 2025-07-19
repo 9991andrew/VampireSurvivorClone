@@ -89,8 +89,7 @@ namespace Vampire_Survivor.Screens
                 playerConfig.framesPerSecIdle,
                 playerConfig.frameCountWalk,
                 playerConfig.framesPerSecWalk, 
-                Entity.Direction.Down,         
-                Entity.AnimationState.Idle         
+                Entity.Direction.Down        
             );
             //TODO: make 15 not 15 and some other value.
             enemy = new SimpleEnemy(player, enemyConfig.health, 15, "Vampires2_Attack_full", 12, 12);
@@ -108,8 +107,7 @@ namespace Vampire_Survivor.Screens
                             enemyConfig.framesPerSecIdle,
                             enemyConfig.frameCountWalk,
                             enemyConfig.framesPerSecWalk,
-                            Entity.Direction.Down,
-                            Entity.AnimationState.Idle);
+                            Entity.Direction.Down);
         }
         public override void Draw(GameTime gameTime)
         {

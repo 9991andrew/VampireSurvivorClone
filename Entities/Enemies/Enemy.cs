@@ -31,6 +31,8 @@ namespace Vampire_Survivor.Entities.Enemies
         private AnimatedTexture AttackTexture;
 
 
+
+
         //Constructor of enemy
         protected Enemy(Player target, int initHealth, int damage, string animPath, int framesPerSec, int frameCount)
         {
@@ -46,7 +48,7 @@ namespace Vampire_Survivor.Entities.Enemies
         //Initialize the enemy.
         public void Initialize(ContentManager content, Vector2 pos, int speed, Vector2 origin, int healthValue, float rotation,
                                           float scale, float depth, string idleAnim, string walkAnim, int frameCount,
-                                          int framesPerSec, int frameCount2, int framesPerSec2, Direction dir, AnimationState animState)
+                                          int framesPerSec, int frameCount2, int framesPerSec2, Direction dir)
         {
             base.Initialize(content,
                             pos,
@@ -62,8 +64,7 @@ namespace Vampire_Survivor.Entities.Enemies
                             framesPerSec,
                             frameCount2,
                             framesPerSec2,
-                            dir,
-                            animState);
+                            dir);
             AttackTexture = new AnimatedTexture(origin, rotation, scale, depth);
             if(AttackTexture == null) throw new Exception("Failed to load the attack animation texture");
             AttackTexture.Load(content, attackAnim, frameCountAttack, framesPerSecAttack);
@@ -85,7 +86,6 @@ namespace Vampire_Survivor.Entities.Enemies
                     CurrentDirection = toPlayer.X > 0 ? Direction.Right : Direction.Left;
                 else
                     CurrentDirection = toPlayer.Y > 0 ? Direction.Down : Direction.Up;
-                state = AnimationState.Moving;
             }
             //This is where we detect collision between the enemy and the player. Not the other way around.
             //When this happens, we set the position of the enemy to be whatever it was before it interacts with the player in whatever way.
@@ -93,34 +93,15 @@ namespace Vampire_Survivor.Entities.Enemies
             if (CollisionHelper.CheckCollision(Bounds,Target.Bounds))
             {
                 Position = prevPos;
-                state = AnimationState.Idle;
                 aistate = AIState.Attack;      
-            } else
+            } 
+            else
             {
                 aistate = AIState.Patrol;
-                state = AnimationState.Moving;
             }
-            HandleAnimationState(state, dt);
             HandleAIState(aistate, dt);
         }
 
-
-        protected virtual void HandleAnimationState(AnimationState state, float dt)
-        {
-            //Console.WriteLine("Handling Animation State");
-            switch (state)
-            {
-                case AnimationState.Moving:
-                    CurrentTexture = MovingTexture;
-                    break;
-                case AnimationState.Idle:
-                    CurrentTexture = IdleTexture;
-                    break;
-            }
-            //We check for null just in case here, we don't want a null exception.
-            if (CurrentTexture != null) 
-                CurrentTexture.UpdateFrame(dt);  
-        }
 
         protected virtual void HandleAIState(AIState state, float dt)
         {
@@ -142,8 +123,7 @@ namespace Vampire_Survivor.Entities.Enemies
             if (CurrentTexture != null)
             {
                 Console.WriteLine("Handling AI State, current state is: " + state);
-                CurrentTexture.UpdateFrame(dt);
-               
+                CurrentTexture.UpdateFrame(dt);         
             }
         }
 
