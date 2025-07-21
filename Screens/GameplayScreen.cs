@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vampire_Survivor.Entities;
 using Vampire_Survivor.Entities.Enemies;
+using Vampire_Survivor.Misc;
 
 namespace Vampire_Survivor.Screens
 {
@@ -17,25 +18,9 @@ namespace Vampire_Survivor.Screens
         private readonly ScreenManager screenManager;
 
         private Player player;
-        private SimpleEnemy enemy;
-        private struct Config
-        {
-           public Vector2 pos;
-            public int speed;
-            public Vector2 origin;
-            public int health;
-            public float rotation;
-            public float scale;
-            public float depth;
-            public string idleAnim;
-            public string walkAnim;
-            public int frameCountIdle;
-            public int framesPerSecIdle;
-            public int frameCountWalk;
-            public int framesPerSecWalk;
-        }
+        private EnemySpawner enemySpawner;
+
         private Config playerConfig;
-        private Config enemyConfig;
 
         public GameplayScreen(Microsoft.Xna.Framework.Game game, ScreenManager screens) : base(game)
         {
@@ -56,21 +41,6 @@ namespace Vampire_Survivor.Screens
             playerConfig.framesPerSecIdle = 5;
             playerConfig.frameCountWalk = 6;
             playerConfig.framesPerSecWalk =7;
-
-            enemyConfig = new Config();
-            enemyConfig.pos = new Vector2(50, 50);
-            enemyConfig.origin = Vector2.Zero;
-            enemyConfig.health = 10;
-            enemyConfig.speed = 100;
-            enemyConfig.rotation = 0f;
-            enemyConfig.scale = 1.5f;
-            enemyConfig.depth = 0;
-            enemyConfig.idleAnim = "Vampires2_Idle_full";
-            enemyConfig.walkAnim = "Vampires2_Walk_full";
-            enemyConfig.frameCountIdle = 4;
-            enemyConfig.framesPerSecIdle = 5;
-            enemyConfig.frameCountWalk = 6;
-            enemyConfig.framesPerSecWalk = 7;
         }
         public override void LoadContent()
         {
@@ -88,39 +58,23 @@ namespace Vampire_Survivor.Screens
                 playerConfig.frameCountIdle,
                 playerConfig.framesPerSecIdle,
                 playerConfig.frameCountWalk,
-                playerConfig.framesPerSecWalk, 
-                Entity.Direction.Down        
+                playerConfig.framesPerSecWalk,
+                Entity.Direction.Down
             );
-            //TODO: make 15 not 15 and some other value.
-            enemy = new SimpleEnemy(player, enemyConfig.health, 15, "Vampires2_Attack_full", 12, 12);
-            enemy.Initialize(Game.Content,
-                            enemyConfig.pos,
-                            enemyConfig.speed,
-                            enemyConfig.origin,
-                            enemyConfig.health,
-                            enemyConfig.rotation,
-                            enemyConfig.scale,
-                            enemyConfig.depth,
-                            enemyConfig.idleAnim,
-                            enemyConfig.walkAnim,
-                            enemyConfig.frameCountIdle,
-                            enemyConfig.framesPerSecIdle,
-                            enemyConfig.frameCountWalk,
-                            enemyConfig.framesPerSecWalk,
-                            Entity.Direction.Down);
+            enemySpawner = new EnemySpawner(player, Game.Content);
         }
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
+            enemySpawner.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            enemy.Draw(spriteBatch);
             spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
             player.Update(gameTime);
-            enemy.Update(gameTime);
+            enemySpawner.Update(gameTime);
         }
     }
 }

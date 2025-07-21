@@ -29,10 +29,6 @@ namespace Vampire_Survivor.Entities.Enemies
         private int frameCountAttack;
         //Texture for attacking the player
         private AnimatedTexture AttackTexture;
-
-
-
-
         //Constructor of enemy
         protected Enemy(Player target, int initHealth, int damage, string animPath, int framesPerSec, int frameCount)
         {
@@ -111,7 +107,7 @@ namespace Vampire_Survivor.Entities.Enemies
                     CurrentTexture = MovingTexture;
                     break;
                 case AIState.Chase: 
-                    CurrentTexture = IdleTexture;
+                    CurrentTexture = MovingTexture;
                     break;
                 case AIState.Attack:
                     CurrentTexture = AttackTexture;

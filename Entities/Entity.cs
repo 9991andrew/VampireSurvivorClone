@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using Vampire_Survivor.Entities.Enemies;
 
 namespace Vampire_Survivor.Entities
 {
@@ -21,7 +22,6 @@ namespace Vampire_Survivor.Entities
          * Health of the entity
          */
         public int Health { get; set; }
-
         /*
          * The direction of the entity
          */
@@ -123,6 +123,29 @@ namespace Vampire_Survivor.Entities
             batch.Draw(debugPixel, new Rectangle(box.Left, box.Bottom, box.Width, 1), Color.Red);
             batch.Draw(debugPixel, new Rectangle(box.Left, box.Top, 1, box.Height), Color.Red);
             batch.Draw(debugPixel, new Rectangle(box.Right, box.Top, 1, box.Height), Color.Red);
+        }
+
+        public void ResolveOverlapCollision(Enemy other)
+        {
+            if (CollisionHelper.CheckCollision(this.Bounds, other.Bounds))
+            {
+                Vector2 direction = this.Position - other.Position;
+                if (direction.LengthSquared() < 0.01f)  direction = new Vector2(1, 0);
+
+                direction.Normalize();
+
+                Rectangle intersection = Rectangle.Intersect(this.Bounds, other.Bounds);
+                float overlap = MathF.Max(intersection.Width, intersection.Height) / 2f;
+
+                if(overlap > 1f)
+                {
+                    float correction = overlap * 0.2f;
+                    Vector2 push = direction * correction;
+                    
+                    this.Position += push;
+                    other.Position -= push;
+                }
+            }
         }
     }
 
